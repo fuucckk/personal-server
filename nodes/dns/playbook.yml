@@ -11,6 +11,16 @@
       tags: [package, never]
       ansible.builtin.import_tasks: ../common/tasks/package.yml
 
+    - name: Sudoers drop-in for erebe
+      tags: [sudo, never]
+      ansible.builtin.copy:
+        src: "{{ node_dir }}/config/sudoers"
+        dest: /etc/sudoers.d/erebe
+        owner: root
+        group: root
+        mode: '0440'
+        validate: '/usr/sbin/visudo -cf %s'
+
     - name: networkd config
       tags: [network, never]
       ansible.builtin.import_tasks: ../common/tasks/networkd.yml
